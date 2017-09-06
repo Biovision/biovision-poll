@@ -14,6 +14,7 @@ class Poll < ApplicationRecord
   belongs_to :agent, optional: true
   belongs_to :region, optional: true
   belongs_to :pollable, polymorphic: true
+  has_many :poll_questions, dependent: :delete_all
 
   validates_presence_of :name, :description
   validates_length_of :name, maximum: NAME_LIMIT
