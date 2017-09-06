@@ -16,7 +16,10 @@ PATH
   specs:
     biovision-poll (0.0.170906)
       biovision-base
+      carrierwave
+      carrierwave-bombshelter
       kaminari
+      mini_magick
       rails (~> 5.1)
       rails-i18n (~> 5.0)
 

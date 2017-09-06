@@ -20,7 +20,10 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails-i18n', '~> 5.0'
 
   s.add_dependency 'biovision-base'
+  s.add_dependency 'carrierwave'
+  s.add_dependency 'carrierwave-bombshelter'
   s.add_dependency 'kaminari'
+  s.add_dependency 'mini_magick'
 
   s.add_development_dependency 'database_cleaner'
   s.add_development_dependency 'factory_girl_rails'
