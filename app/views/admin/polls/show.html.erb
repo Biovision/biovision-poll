@@ -1,0 +1,40 @@
+<% content_for :meta_title, t('.title', name: @entity.name) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
+    <span><%= @entity.name %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.name %></h1>
+
+  <ul class="actions">
+    <li><%= back_icon(admin_polls_path) %></li>
+    <li><%= edit_icon(edit_poll_path(@entity.id)) %></li>
+  </ul>
+
+  <% unless @entity.image.blank? %>
+      <figure>
+        <%= poll_image_medium(@entity) %>
+        <figcaption><%= t('activerecord.attributes.poll.image') %></figcaption>
+      </figure>
+  <% end %>
+
+  <dl>
+    <dt><%= t(:created_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.created_at) %>
+    </dd>
+
+    <dt><%= t(:updated_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.updated_at) %>
+    </dd>
+
+    <% unless @entity.description.blank? %>
+        <dt><%= t('activerecord.attributes.poll.description') %></dt>
+        <dd>
+          <%= @entity.description %>
+        </dd>
+    <% end %>
+  </dl>
+</article>

@@ -1,0 +1,16 @@
+<div class="image">
+  <%= poll_image_preview(entity) %>
+</div>
+<div class="data">
+  <div><%= admin_poll_link(entity) %></div>
+  <div class="info">
+    <%= entity.description %>
+  </div>
+  <div class="secondary info">
+    <%= t(:poll_question_count, count: entity.poll_questions_count) %>
+  </div>
+
+  <ul class="actions">
+    <li><%= edit_icon(edit_poll_path(entity)) %></li>
+  </ul>
+</div>

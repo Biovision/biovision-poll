@@ -5,6 +5,12 @@ ru:
     few: "%{count} вопроса"
     many: "%{count} вопросов"
     other: "%{count} вопросов"
+  poll_vote_count:
+    zero: "голосов нет"
+    one: "%{count} голос"
+    few: "%{count} голоса"
+    many: "%{count} голосов"
+    other: "%{count} голосов"
   activerecord:
     models:
       poll: "Опрос"
@@ -28,3 +34,29 @@ ru:
         user: "Пользователь"
         user_id: "Пользователь"
         visible: "Показывать"
+  admin:
+    polls:
+      nav_item:
+        description: "Управление опросами"
+        text: "Опросы"
+      index:
+        heading: "Опросы"
+        title: "Опросы, страница %{page}"
+      show:
+        title: "Опрос «%{name}»"
+  polls:
+    new:
+      title: "Новый опрос"
+      heading: "Новый опрос"
+    edit:
+      title: "Редактирование опроса"
+      heading: "Редактирование опроса"
+    update:
+      success: "Опрос успешно изменён"
+    destroy:
+      success: "Опрос успешно удалён"
+    form:
+      guidelines:
+        image: "Картинка в формате JPG или PNG размером около 640×640 для иллюстрации."
+        name: "Максимум 140 символов."
+        description: "Отображается перед вопросами. Максимум 255 символов."

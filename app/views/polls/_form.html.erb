@@ -1,0 +1,35 @@
+<%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+<%= form_for entity do |f| %>
+    <figure class="preview" id="poll-image">
+      <% if entity.image.blank? %>
+          <% image_path = 'biovision/base/placeholders/image.svg' %>
+      <% else %>
+          <% image_path = entity.image.url %>
+      <% end %>
+      <%= label_tag(:poll_image, image_tag(image_path, alt: t('activerecord.attributes.poll.image'))) %>
+      <figcaption>
+        <%= f.label :image %>
+        <%= f.file_field :image, accept: 'image/jpeg,image/png', data: { image: 'poll-image' } %>
+        <div class="guideline"><%= t('.guidelines.image') %></div>
+      </figcaption>
+    </figure>
+
+    <dl>
+      <dt><%= f.label :name %></dt>
+      <dd>
+        <%= f.text_field :name, required: true, size: nil, maxlength: 100 %>
+        <div class="guideline"><%= t('.guidelines.name') %></div>
+      </dd>
+
+      <dt><%= f.label :description %></dt>
+      <dd>
+        <%= f.text_field :description, size: nil, maxlength: 250 %>
+        <div class="guideline"><%= t('.guidelines.description') %></div>
+      </dd>
+    </dl>
+
+    <div class="buttons">
+      <%= f.button t(:save), type: :submit %>
+    </div>
+<% end %>

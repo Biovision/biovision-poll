@@ -5,6 +5,8 @@ class PollVote < ApplicationRecord
   belongs_to :user
   belongs_to :agent, optional: true
 
+  before_save { self.footprint = "#{user_id}:#{ip}:#{agent_id}" }
+
   scope :recent, -> { order('id desc') }
 
   # @param [Integer] page

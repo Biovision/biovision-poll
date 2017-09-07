@@ -15,6 +15,7 @@ class CreatePolls < ActiveRecord::Migration[5.1]
         t.boolean :anonymous_votes, default: true, null: false
         t.boolean :open_results, default: true, null: false
         t.datetime :end_date
+        t.integer :poll_questions_count, default: 0, null: false
         t.integer :comments_count, default: 0, null: false
         t.string :image
         t.string :name

@@ -9,7 +9,7 @@ class PollQuestion < ApplicationRecord
 
   mount_uploader :image, PollImageUploader
 
-  belongs_to :poll
+  belongs_to :poll, counter_cache: true
   has_many :poll_answers, dependent: :delete_all
 
   after_initialize :set_next_priority
