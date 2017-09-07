@@ -14,8 +14,8 @@ ru:
   activerecord:
     models:
       poll: "Опрос"
-      poll_question: "Вопрос"
       poll_answer: "Ответ на вопрос"
+      poll_question: "Вопрос"
       poll_vote: "Голос в опросе"
     attributes:
       poll:
@@ -34,6 +34,24 @@ ru:
         user: "Пользователь"
         user_id: "Пользователь"
         visible: "Показывать"
+      poll_answer:
+        image: "Картинка"
+        poll_question: "Вопрос"
+        poll_question_id: "Вопрос"
+        priority: "Порядок сортировки"
+        text: "Текст"
+      poll_question:
+        comment: "Комментарий"
+        image: "Картинка"
+        multiple_choice: "Множественный выбор"
+        poll: "Опрос"
+        poll_id: "Опрос"
+        priority: "Порядок сортировки"
+        text: "Текст"
+      poll_vote:
+        footprint: "Отпечаток"
+        poll_answer: "Ответ"
+        user: "Пользователь"
   admin:
     polls:
       nav_item:
@@ -44,19 +62,64 @@ ru:
         title: "Опросы, страница %{page}"
       show:
         title: "Опрос «%{name}»"
+    poll_questions:
+      show:
+        title: "Опрос «%{poll}»: %{question}"
+    poll_answers:
+      show:
+        title: "Опрос «%{poll}»: %{question} — «%{answer}»"
   polls:
     new:
-      title: "Новый опрос"
       heading: "Новый опрос"
+      title: "Новый опрос"
     edit:
-      title: "Редактирование опроса"
       heading: "Редактирование опроса"
+      title: "Редактирование опроса"
     update:
       success: "Опрос успешно изменён"
     destroy:
       success: "Опрос успешно удалён"
     form:
       guidelines:
+        description: "Отображается перед вопросами. Максимум 255 символов."
+        image: "Картинка в формате JPG или PNG размером около 640×640 для иллюстрации."
+        name: "Суть опроса. Максимум 140 символов."
+      placeholders:
+        description: "Нужно проголосовать за лучший вариант"
+        name: "О принятии какого-либо решения"
+  poll_questions:
+    new:
+      heading: "Новый вопрос"
+      title: "Новый вопрос"
+    edit:
+      heading: "Редактирование вопроса"
+      title: "Редактирование вопроса"
+    update:
+      success: "Вопрос успешно изменён"
+    destroy:
+      success: "Вопрос успешно удалён"
+    form:
+      guidelines:
+        comment: "Максимум 140 символов."
         image: "Картинка в формате JPG или PNG размером около 640×640 для иллюстрации."
         name: "Максимум 140 символов."
-        description: "Отображается перед вопросами. Максимум 255 символов."
+      placeholders:
+        comment: "Цветовая гамма — часть общего стиля"
+        name: "В какой цвет красить забор?"
+  poll_answers:
+    new:
+      heading: "Новый ответ на вопрос"
+      title: "Новый ответ на вопрос"
+    edit:
+      heading: "Редактирование ответа на вопрос"
+      title: "Редактирование ответа на вопрос"
+    update:
+      success: "Ответ на вопрос успешно изменён"
+    destroy:
+      success: "Ответ на вопрос успешно удалён"
+    form:
+      guidelines:
+        image: "Картинка в формате JPG или PNG размером около 640×640 для иллюстрации."
+        text: "Максимум 140 символов."
+      placeholders:
+        text: "Идеологически правильный вариант"
