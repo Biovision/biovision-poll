@@ -2,7 +2,8 @@
 <% content_for :breadcrumbs do %>
     <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
     <%= admin_poll_link(@entity.poll) %>
-    <%= admin_poll_question_link(@entity) %>
+    <%= admin_poll_question_link(@entity.poll_question) %>
+    <%= admin_poll_answer_link(@entity) %>
     <span><%= t(:edit) %></span>
 <% end %>
 
@@ -10,7 +11,7 @@
   <h1><%= t('.heading') %></h1>
 
   <ul class="actions">
-    <li><%= return_icon(admin_poll_question_path(@entity.id)) %></li>
+    <li><%= return_icon(admin_poll_answer_path(@entity.id)) %></li>
     <li class="danger"><%= destroy_icon(@entity) %></li>
   </ul>
 

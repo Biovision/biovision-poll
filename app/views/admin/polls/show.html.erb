@@ -30,6 +30,11 @@
       <%= time_tag(@entity.updated_at) %>
     </dd>
 
+    <dt><%= t('activerecord.attributes.poll.name') %></dt>
+    <dd>
+      <%= @entity.name %>
+    </dd>
+
     <% unless @entity.description.blank? %>
         <dt><%= t('activerecord.attributes.poll.description') %></dt>
         <dd>
@@ -43,12 +48,14 @@
   <section>
     <h2><%= t(:poll_question_count, count: @entity.poll_questions_count) %></h2>
 
-    <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @entity.poll_questions.page_for_administration } %>
+    <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @entity.poll_questions.ordered_by_priority } %>
   </section>
 
-  <section>
-    <h2><%= t('poll_questions.new.heading') %></h2>
+  <% if @entity.poll_questions.count < 10 %>
+      <section>
+        <h2><%= t('poll_questions.new.heading') %></h2>
 
-    <%= render partial: 'poll_questions/form', locals: { entity: @entity.poll_questions.new } %>
-  </section>
+        <%= render partial: 'poll_questions/form', locals: { entity: @entity.poll_questions.new } %>
+      </section>
+  <% end %>
 </article>

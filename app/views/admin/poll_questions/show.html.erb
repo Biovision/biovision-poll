@@ -16,7 +16,7 @@
   <% unless @entity.image.blank? %>
       <figure>
         <%= poll_image_medium(@entity) %>
-        <figcaption><%= t('activerecord.attributes.poll.image') %></figcaption>
+        <figcaption><%= t('activerecord.attributes.poll_question.image') %></figcaption>
       </figure>
   <% end %>
 
@@ -31,9 +31,19 @@
       <%= time_tag(@entity.updated_at) %>
     </dd>
 
+    <dt><%= t('activerecord.attributes.poll_question.poll_id') %></dt>
+    <dd>
+      <%= admin_poll_link(@entity.poll) %>
+    </dd>
+
     <dt><%= t('activerecord.attributes.poll_question.priority') %></dt>
     <dd>
       <%= @entity.priority %>
+    </dd>
+
+    <dt><%= t('activerecord.attributes.poll_question.text') %></dt>
+    <dd>
+      <%= @entity.text %>
     </dd>
 
     <% unless @entity.comment.blank? %>
@@ -45,4 +55,18 @@
   </dl>
 
   <%= redner partial: 'admin/poll_questions/toggleable', locals: { entity: @entity } %>
+
+  <section>
+    <h2><%= t(:poll_answer_count, count: @entity.poll_answers_count) %></h2>
+
+    <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @entity.poll_answers.ordered_by_priority } %>
+  </section>
+
+  <% if @entity.poll_answers.count < 10 %>
+      <section>
+        <h2><%= t('poll_answers.new.heading') %></h2>
+
+        <%= render partial: 'poll_answers/form', locals: { entity: @entity.poll_answers.new } %>
+      </section>
+  <% end %>
 </article>

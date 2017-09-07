@@ -3,7 +3,7 @@ class PollAnswer < ApplicationRecord
 
   mount_uploader :image, PollImageUploader
 
-  belongs_to :poll_question
+  belongs_to :poll_question, counter_cache: true
   has_many :poll_votes, dependent: :delete_all
 
   after_initialize :set_next_priority
@@ -29,6 +29,10 @@ class PollAnswer < ApplicationRecord
   # @param [User] user
   def editable_by?(user)
     poll_question.poll.editable_by?(user)
+  end
+
+  def poll
+    poll_question&.poll
   end
 
   # @param [Integer] delta

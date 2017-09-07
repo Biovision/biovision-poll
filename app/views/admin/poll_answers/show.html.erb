@@ -1,0 +1,58 @@
+<% content_for :meta_title, t('.title', poll: @entity.poll.name, answer: @entity.poll_question.text, question: @entity.text) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
+    <%= admin_poll_link(@entity.poll) %>
+    <%= admin_poll_question_link(@entity.poll_question) %>
+    <span><%= @entity.priority %>: <%= @entity.text %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.text %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_poll_question_path(@entity.poll_question_id)) %></li>
+    <li><%= edit_icon(edit_poll_answer_path(@entity.id)) %></li>
+  </ul>
+
+  <% unless @entity.image.blank? %>
+      <figure>
+        <%= poll_image_medium(@entity) %>
+        <figcaption><%= t('activerecord.attributes.poll_answer.image') %></figcaption>
+      </figure>
+  <% end %>
+
+  <dl>
+    <dt><%= t(:created_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.created_at) %>
+    </dd>
+
+    <dt><%= t(:updated_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.updated_at) %>
+    </dd>
+
+    <dt><%= t('activerecord.attributes.poll_answer.priority') %></dt>
+    <dd>
+      <%= @entity.priority %>
+    </dd>
+
+    <dt><%= t('activerecord.attributes.poll_answer.poll_question_id') %></dt>
+    <dd>
+      <%= admin_poll_question_link(@entity.poll_question) %>
+    </dd>
+
+    <dt><%= t('activerecord.attributes.poll_answer.text') %></dt>
+    <dd>
+      <%= @entity.text %>
+    </dd>
+  </dl>
+
+  <section>
+    <h2><%= t(:poll_vote_count, count: @entity.poll_votes_count) %></h2>
+
+    <%= paginate @collection %>
+    <%= render partial: 'shared/admin/list', locals: { collection: @collection } %>
+    <%= paginate @collection %>
+  </section>
+</article>

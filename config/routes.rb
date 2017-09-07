@@ -8,10 +8,11 @@ Biovision::Poll::Engine.routes.draw do
         post 'toggle', defaults: { format: :json }
       end
     end
-    resources :poll_questions, :poll_answers, only: [:show] do
+    resources :poll_questions, only: [:show] do
       member do
         post 'toggle', defaults: { format: :json }
       end
     end
+    resources :poll_answers, only: [:show]
   end
 end

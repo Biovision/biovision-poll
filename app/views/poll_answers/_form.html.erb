@@ -1,0 +1,42 @@
+<%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+<%= form_for entity do |f| %>
+<!--
+    <figure class="preview" id="poll-answer-image">
+      <% if entity.image.blank? %>
+        <% image_path = 'biovision/base/placeholders/image.svg' %>
+      <% else %>
+        <% image_path = entity.image.url %>
+      <% end %>
+      <%= label_tag(:poll_answer_image, image_tag(image_path, alt: t('activerecord.attributes.poll.image'))) %>
+      <figcaption>
+        <%= f.label :image %>
+        <%= f.file_field :image, accept: 'image/jpeg,image/png', data: { image: 'poll-answer-image' } %>
+        <div class="guideline"><%= t('.guidelines.image') %></div>
+      </figcaption>
+    </figure>
+-->
+
+    <dl>
+      <% unless entity.id.nil? %>
+          <dt><%= t('activerecord.attributes.poll_answer.poll_question_id') %></dt>
+          <dd><%= admin_poll_question_link(entity.poll_question) %></dd>
+      <% end %>
+
+      <dt><%= f.label :priority %></dt>
+      <dd>
+        <%= f.number_field :priority, in: PollAnswer::PRIORITY_RANGE, required: true %>
+      </dd>
+
+      <dt><%= f.label :text %></dt>
+      <dd>
+        <%= f.text_field :text, required: true, size: nil, maxlength: PollAnswer::TEXT_LIMIT, placeholder: t('.placeholders.text') %>
+        <div class="guideline"><%= t('.guidelines.text') %></div>
+      </dd>
+    </dl>
+
+    <div class="buttons">
+      <%= f.hidden :poll_question_id if entity.id.nil? %>
+      <%= f.button t(:save), type: :submit %>
+    </div>
+<% end %>

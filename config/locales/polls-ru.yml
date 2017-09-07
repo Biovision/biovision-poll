@@ -5,6 +5,12 @@ ru:
     few: "%{count} вопроса"
     many: "%{count} вопросов"
     other: "%{count} вопросов"
+  poll_answer_count:
+    zero: "ответов нет"
+    one: "%{count} ответ"
+    few: "%{count} ответа"
+    many: "%{count} ответов"
+    other: "%{count} ответов"
   poll_vote_count:
     zero: "голосов нет"
     one: "%{count} голос"

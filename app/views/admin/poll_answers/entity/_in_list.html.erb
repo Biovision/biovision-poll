@@ -1,0 +1,20 @@
+<div class="image">
+  <%= poll_image_preview(entity) %>
+</div>
+<div class="data">
+  <div><%= admin_poll_question_link(entity) %></div>
+  <% unless entity.comment.blank? %>
+      <div class="info">
+        <%= entity.comment %>
+      </div>
+  <% end %>
+  <% if entity.poll_answers.any? %>
+      <div><%= entity.poll_answers.count %></div>
+  <% end %>
+
+  <%= redner partial: 'admin/polls/toggleable', locals: { entity: entity } %>
+
+  <ul class="actions">
+    <li><%= edit_icon(edit_poll_path(entity)) %></li>
+  </ul>
+</div>
