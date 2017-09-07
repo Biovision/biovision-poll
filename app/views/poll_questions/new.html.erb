@@ -1,0 +1,18 @@
+<% content_for :meta_title, t('.title') %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
+    <%= admin_poll_link(@entity.poll) unless @entity.poll.nil? %>
+    <span><%= t('.heading') %></span>
+<% end %>
+
+<article>
+  <h1><%= t('.title') %></h1>
+
+  <% unless @entity.poll_id.nil? %>
+      <ul class="actions">
+        <li><%= return_icon(admin_poll_path(@entity.poll_id)) %></li>
+      </ul>
+  <% end %>
+
+  <%= render partial: 'form', locals: { entity: @entity } %>
+</article>

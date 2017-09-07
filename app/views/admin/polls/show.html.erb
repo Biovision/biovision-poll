@@ -39,4 +39,16 @@
   </dl>
 
   <%= redner partial: 'admin/polls/toggleable', locals: { entity: @entity } %>
+
+  <section>
+    <h2><%= t(:poll_question_count, count: @entity.poll_questions_count) %></h2>
+
+    <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @entity.poll_questions.page_for_administration } %>
+  </section>
+
+  <section>
+    <h2><%= t('poll_questions.new.heading') %></h2>
+
+    <%= render partial: 'poll_questions/form', locals: { entity: @entity.poll_questions.new } %>
+  </section>
 </article>

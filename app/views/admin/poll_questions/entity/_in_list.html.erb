@@ -2,15 +2,15 @@
   <%= poll_image_preview(entity) %>
 </div>
 <div class="data">
-  <div><%= admin_poll_link(entity) %></div>
-  <% unless entity.description.blank? %>
+  <div><%= admin_poll_question_link(entity) %></div>
+  <% unless entity.comment.blank? %>
       <div class="info">
-        <%= entity.description %>
+        <%= entity.comment %>
       </div>
   <% end %>
-  <div class="secondary info">
-    <%= t(:poll_question_count, count: entity.poll_questions_count) %>
-  </div>
+  <% if entity.poll_answers.any? %>
+      <div><%= entity.poll_answers.count %></div>
+  <% end %>
 
   <%= redner partial: 'admin/polls/toggleable', locals: { entity: entity } %>
 

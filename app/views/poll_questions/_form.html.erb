@@ -1,0 +1,53 @@
+<%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+
+<%= form_for entity do |f| %>
+<!--
+    <figure class="preview" id="poll-question-image">
+      <% if entity.image.blank? %>
+          <% image_path = 'biovision/base/placeholders/image.svg' %>
+      <% else %>
+          <% image_path = entity.image.url %>
+      <% end %>
+      <%= label_tag(:poll_question_image, image_tag(image_path, alt: t('activerecord.attributes.poll.image'))) %>
+      <figcaption>
+        <%= f.label :image %>
+        <%= f.file_field :image, accept: 'image/jpeg,image/png', data: { image: 'poll-question-image' } %>
+        <div class="guideline"><%= t('.guidelines.image') %></div>
+      </figcaption>
+    </figure>
+-->
+
+    <dl>
+      <% unless entity.poll_id.nil? %>
+          <dt><%= t('activerecord.attributes.poll_question.poll_id') %></dt>
+          <dd><%= admin_poll_link(entity.poll) %></dd>
+      <% end %>
+
+      <dt><%= f.label :priority %></dt>
+      <dd>
+        <%= f.number_field :priority, in: PollQuestion::PRIORITY_RANGE, required: true %>
+      </dd>
+
+      <dt><%= f.label :text %></dt>
+      <dd>
+        <%= f.text_field :text, required: true, size: nil, maxlength: PollQuestion::TEXT_LIMIT, placeholder: t('.placeholders.text') %>
+        <div class="guideline"><%= t('.guidelines.text') %></div>
+      </dd>
+
+      <dt><%= f.label :comment %></dt>
+      <dd>
+        <%= f.text_field :comment, size: nil, maxlength: PollQuestion::COMMENT_LIMIT, placeholder: t('.placeholders.comment') %>
+        <div class="guideline"><%= t('.guidelines.comment') %></div>
+      </dd>
+    </dl>
+
+    <ul class="flags">
+      <% PollQuestion.toggleable_attributes.each do |flag| %>
+          <li><%= f.check_box flag %><%= f.label flag %></li>
+      <% end %>
+    </ul>
+
+    <div class="buttons">
+      <%= f.button t(:save), type: :submit %>
+    </div>
+<% end %>

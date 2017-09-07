@@ -1,0 +1,48 @@
+<% content_for :meta_title, t('.title', poll: @entity.poll.name, question: @entity.text) %>
+<% content_for :breadcrumbs do %>
+    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
+    <%= admin_poll_link(@entity.poll) %>
+    <span><%= @entity.priority %>: <%= @entity.text %></span>
+<% end %>
+
+<article>
+  <h1><%= @entity.text %></h1>
+
+  <ul class="actions">
+    <li><%= return_icon(admin_poll_path(@entity.poll_id)) %></li>
+    <li><%= edit_icon(edit_poll_question_path(@entity.id)) %></li>
+  </ul>
+
+  <% unless @entity.image.blank? %>
+      <figure>
+        <%= poll_image_medium(@entity) %>
+        <figcaption><%= t('activerecord.attributes.poll.image') %></figcaption>
+      </figure>
+  <% end %>
+
+  <dl>
+    <dt><%= t(:created_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.created_at) %>
+    </dd>
+
+    <dt><%= t(:updated_at) %></dt>
+    <dd>
+      <%= time_tag(@entity.updated_at) %>
+    </dd>
+
+    <dt><%= t('activerecord.attributes.poll_question.priority') %></dt>
+    <dd>
+      <%= @entity.priority %>
+    </dd>
+
+    <% unless @entity.comment.blank? %>
+        <dt><%= t('activerecord.attributes.poll_question.comment') %></dt>
+        <dd>
+          <%= @entity.comment %>
+        </dd>
+    <% end %>
+  </dl>
+
+  <%= redner partial: 'admin/poll_questions/toggleable', locals: { entity: @entity } %>
+</article>

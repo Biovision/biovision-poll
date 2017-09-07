@@ -4,6 +4,11 @@ module PollsHelper
     link_to(entity.name, admin_poll_path(entity.id))
   end
 
+  # @param [PollQuestion] entity
+  def admin_poll_question_link(entity)
+    link_to(entity.text, admin_poll_question_path(entity.id))
+  end
+
   # @param [Poll] entity
   def poll_link(entity)
     link_to(entity.name, poll_path(entity.id))
