@@ -29,6 +29,12 @@
       </dd>
     </dl>
 
+    <ul class="flags">
+      <% Poll.toggleable_attributes.each do |flag| %>
+          <li><%= f.check_box flag %><%= f.label flag %></li>
+      <% end %>
+    </ul>
+
     <div class="buttons">
       <%= f.button t(:save), type: :submit %>
     </div>

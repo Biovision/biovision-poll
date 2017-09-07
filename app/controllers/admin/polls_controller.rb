@@ -21,7 +21,7 @@ class Admin::PollsController < AdminController
   def set_entity
     @entity = Poll.find_by(id: params[:id])
     if @entity.nil?
-      handle_http_404('Cannot find media file')
+      handle_http_404('Cannot find poll')
     end
   end
 end

@@ -10,6 +10,8 @@
     <%= t(:poll_question_count, count: entity.poll_questions_count) %>
   </div>
 
+  <%= redner partial: 'admin/polls/toggleable', locals: { entity: entity } %>
+
   <ul class="actions">
     <li><%= edit_icon(edit_poll_path(entity)) %></li>
   </ul>

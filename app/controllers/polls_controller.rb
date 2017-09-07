@@ -11,7 +11,7 @@ class PollsController < ApplicationController
 
   # post /polls
   def create
-    @entity = Poll.new(creation_parameters)
+    @entity = Poll.new(entity_parameters)
     if @entity.save
       redirect_to(admin_poll_path(@entity.id))
     else
@@ -25,7 +25,7 @@ class PollsController < ApplicationController
 
   # patch /polls/:id
   def update
-    if @entity.update entity_parameters
+    if @entity.update(entity_parameters)
       redirect_to admin_poll_path(@entity), notice: t('polls.update.success')
     else
       render :edit, status: :bad_request
@@ -55,9 +55,5 @@ class PollsController < ApplicationController
 
   def entity_parameters
     params.require(:poll).permit(Poll.entity_parameters)
-  end
-
-  def creation_parameters
-    params.require(:poll).permit(Poll.creation_parameters)
   end
 end
