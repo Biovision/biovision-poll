@@ -54,7 +54,7 @@
     <% end %>
   </dl>
 
-  <%= redner partial: 'admin/poll_questions/toggleable', locals: { entity: @entity } %>
+  <%= render partial: 'admin/poll_questions/toggleable', locals: { entity: @entity } %>
 
   <section>
     <h2><%= t(:poll_answer_count, count: @entity.poll_answers_count) %></h2>

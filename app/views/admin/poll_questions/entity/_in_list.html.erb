@@ -8,13 +8,14 @@
         <%= entity.comment %>
       </div>
   <% end %>
-  <% if entity.poll_answers.any? %>
-      <div><%= entity.poll_answers.count %></div>
-  <% end %>
+  <div class="secondary info">
+    <%= t(:poll_answer_count, count: entity.poll_answers_count) %>
+  </div>
 
-  <%= redner partial: 'admin/polls/toggleable', locals: { entity: entity } %>
+  <%= render partial: 'admin/poll_questions/toggleable', locals: { entity: entity } %>
 
   <ul class="actions">
-    <li><%= edit_icon(edit_poll_path(entity)) %></li>
+    <li><%= edit_icon(edit_poll_question_path(entity.id)) %></li>
+    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_poll_question_path(entity.id) } %>
   </ul>
 </div>

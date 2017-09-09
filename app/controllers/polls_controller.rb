@@ -11,7 +11,7 @@ class PollsController < ApplicationController
 
   # post /polls
   def create
-    @entity = Poll.new(entity_parameters)
+    @entity = Poll.new(creation_parameters)
     if @entity.save
       redirect_to(admin_poll_path(@entity.id))
     else
@@ -55,5 +55,9 @@ class PollsController < ApplicationController
 
   def entity_parameters
     params.require(:poll).permit(Poll.entity_parameters)
+  end
+
+  def creation_parameters
+    entity_parameters.merge(owner_for_entity(true))
   end
 end

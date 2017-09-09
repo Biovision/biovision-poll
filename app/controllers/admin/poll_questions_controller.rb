@@ -1,5 +1,6 @@
 class Admin::PollQuestionsController < AdminController
   include ToggleableEntity
+  include EntityPriority
 
   before_action :set_entity
 

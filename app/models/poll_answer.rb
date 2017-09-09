@@ -1,5 +1,6 @@
 class PollAnswer < ApplicationRecord
   TEXT_LIMIT = 140
+  PRIORITY_RANGE = (1..50)
 
   mount_uploader :image, PollImageUploader
 

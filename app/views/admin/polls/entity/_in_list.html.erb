@@ -8,11 +8,18 @@
         <%= entity.description %>
       </div>
   <% end %>
+  <% unless entity.end_date.blank? %>
+      <div class="info">
+        <%= t('activerecord.attributes.poll.end_date') %>:
+        <%= time_tag entity.end_date %>
+      </div>
+  <% end %>
   <div class="secondary info">
+    <%= admin_user_link(entity.user) %>,
     <%= t(:poll_question_count, count: entity.poll_questions_count) %>
   </div>
 
-  <%= redner partial: 'admin/polls/toggleable', locals: { entity: entity } %>
+  <%= render partial: 'admin/polls/toggleable', locals: { entity: entity } %>
 
   <ul class="actions">
     <li><%= edit_icon(edit_poll_path(entity)) %></li>
