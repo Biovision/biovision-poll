@@ -5,7 +5,7 @@ class PollAnswersController < AdminController
   def create
     @entity = PollAnswer.new(creation_parameters)
     if @entity.save
-      redirect_to admin_poll_answer_path(@entity.id)
+      redirect_to admin_poll_question_path(@entity.poll_question_id)
     else
       render :new, status: :bad_request
     end
@@ -18,7 +18,7 @@ class PollAnswersController < AdminController
   # patch /poll_answers/:id
   def update
     if @entity.update(entity_parameters)
-      redirect_to admin_poll_answer_path(@entity.id), notice: t('poll_answers.update.success')
+      redirect_to admin_poll_question_path(@entity.poll_question_id), notice: t('poll_answers.update.success')
     else
       render :edit, status: :bad_request
     end
@@ -29,7 +29,7 @@ class PollAnswersController < AdminController
     if @entity.destroy
       flash[:notice] = t('poll_answers.destroy.success')
     end
-    redirect_to(admin_poll_path(@entity.id))
+    redirect_to(admin_poll_question_path(@entity.poll_question_id))
   end
 
   protected

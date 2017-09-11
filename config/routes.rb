@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :polls
+  resources :polls do
+    member do
+      post 'results' => :answer
+      get 'results'
+    end
+  end
   resources :poll_questions, :poll_answers, except: [:index, :new, :show]
 
   namespace :admin do

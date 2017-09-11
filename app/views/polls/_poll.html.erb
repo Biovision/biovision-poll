@@ -1,0 +1,21 @@
+<article class="biovision-poll">
+  <h1><%= poll.name %></h1>
+
+  <% if poll.editable_by?(current_user) %>
+      <ul class="actions">
+        <li><%= gear_icon(admin_poll_path(poll.id)) %></li>
+      </ul>
+  <% end %>
+
+  <div class="description"><%= poll.description %></div>
+
+  <%= form_tag results_poll_path(poll.id), method: :post do %>
+      <%= render poll.poll_questions.ordered_by_priority %>
+      <div class="buttons">
+        <%= button_tag t('.answer'), type: :submit %>
+        <% if poll.open_results? %>
+            <%= link_to('Результаты', results_poll_path(poll.id), class: 'nav-button') %>
+        <% end %>
+      </div>
+  <% end %>
+</article>

@@ -16,13 +16,13 @@ class Poll < ApplicationRecord
   belongs_to :pollable, polymorphic: true, optional: true
   has_many :poll_questions, dependent: :delete_all
 
-  validates_presence_of :name, :description
+  validates_presence_of :name
   validates_length_of :name, maximum: NAME_LIMIT
   validates_length_of :description, maximum: DESCRIPTION_LIMIT
 
   scope :recent, -> { order('id desc') }
   scope :visible, -> { where(visible: true) }
-  scope :active, -> { where(active: true).where('end_date >= now() or end_date is null') }
+  scope :active, -> { where('active = true and (end_date is null or (date(end_date) >= date(now()))') }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -48,6 +48,11 @@ class Poll < ApplicationRecord
   # @param [User] user
   def visible_to?(user)
     visible? || owned_by?(user)
+  end
+
+  # @param [User] user
+  def show_results?(user)
+    open_results? || editable_by?(user)
   end
 
   def regional?

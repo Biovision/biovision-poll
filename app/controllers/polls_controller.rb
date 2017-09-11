@@ -1,8 +1,13 @@
 class PollsController < ApplicationController
-  before_action :restrict_access, except: [:index, :show]
-  before_action :set_entity, only: [:edit, :update, :destroy]
+  before_action :restrict_access, except: [:index, :show, :results, :answer]
+  before_action :set_entity, except: [:index, :new, :create]
   
-  layout 'admin', except: [:index, :show]
+  layout 'admin', except: [:index, :show, :results]
+
+  # get /polls
+  def index
+    @collection = Poll.page_for_visitors(current_page)
+  end
 
   # get /polls/new
   def new
@@ -16,6 +21,13 @@ class PollsController < ApplicationController
       redirect_to(admin_poll_path(@entity.id))
     else
       render :new, status: :bad_request
+    end
+  end
+
+  # get /polls/:id
+  def show
+    unless @entity.visible_to?(current_user)
+      redirect_to polls_path
     end
   end
 
@@ -38,6 +50,16 @@ class PollsController < ApplicationController
       flash[:notice] = t('polls.destroy.success')
     end
     redirect_to(admin_polls_path)
+  end
+
+  # post /polls/:id/results
+  def answer
+    redirect_to results_poll_path(@entity.id)
+  end
+
+  # get /polls/:id/results
+  def results
+    redirect_to poll_path(@entity.id) unless @entity.show_results?(current_user)
   end
 
   protected

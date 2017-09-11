@@ -26,7 +26,7 @@ ru:
     attributes:
       poll:
         active: "Можно голосовать"
-        anonymous_votes: "Разрешить анонммные голоса"
+        anonymous_votes: "Разрешить анонимные голоса"
         description: "Описание"
         end_date: "Дата окончания"
         image: "Картинка"
@@ -93,6 +93,22 @@ ru:
       placeholders:
         description: "Нужно проголосовать за лучший вариант"
         name: "О принятии какого-либо решения"
+    index:
+      title: "Опросы, страница %{page}"
+      heading: "Опросы"
+    list:
+      no_polls: "Опросов нет"
+    entity:
+      in_list:
+        until: "до"
+        poll_ended: "Опрос окончен"
+    show:
+      title: "Опрос «%{name}»"
+    poll:
+      answer: "Ответить"
+    results:
+      title: "Результаты опроса «%{name}»"
+      heading: "Результаты опроса"
   poll_questions:
     new:
       heading: "Новый вопрос"
