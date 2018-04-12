@@ -11,6 +11,7 @@
 
   <%= form_tag results_poll_path(poll.id), method: :post do %>
       <%= render poll.poll_questions.ordered_by_priority %>
+
       <div class="buttons">
         <%= button_tag t('.answer'), type: :submit %>
         <% if poll.open_results? %>
