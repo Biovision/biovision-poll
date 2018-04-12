@@ -1,7 +1,7 @@
 <% content_for :meta_title, t('.title', name: @entity.name) %>
 <% content_for :breadcrumbs do %>
-    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
-    <span><%= @entity.name %></span>
+  <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
+  <span><%= @entity.name %></span>
 <% end %>
 
 <article>
@@ -13,11 +13,23 @@
     <li><%= edit_icon(edit_poll_path(id: @entity.id)) %></li>
   </ul>
 
+  <% if @entity.exclusive? %>
+    <nav>
+      <%=
+        link_to(
+            t('.allowed_users'),
+            users_admin_poll_path(id: @entity.id),
+            class: 'button-nav'
+        )
+      %>
+    </nav>
+  <% end %>
+
   <% unless @entity.image.blank? %>
-      <figure>
-        <%= poll_image_medium(@entity) %>
-        <figcaption><%= t('activerecord.attributes.poll.image') %></figcaption>
-      </figure>
+    <figure>
+      <%= poll_image_medium(@entity) %>
+      <figcaption><%= t('activerecord.attributes.poll.image') %></figcaption>
+    </figure>
   <% end %>
 
   <dl>
@@ -37,19 +49,19 @@
     </dd>
 
     <% unless @entity.description.blank? %>
-        <dt><%= t('activerecord.attributes.poll.description') %></dt>
-        <dd>
-          <%= @entity.description %>
-        </dd>
+      <dt><%= t('activerecord.attributes.poll.description') %></dt>
+      <dd>
+        <%= @entity.description %>
+      </dd>
     <% end %>
   </dl>
 
   <%=
     render(
         partial: 'shared/admin/toggleable',
-        locals: {
+        locals:  {
             entity: @entity,
-            url: toggle_admin_poll_path(id: @entity.id)
+            url:    toggle_admin_poll_path(id: @entity.id)
         }
     )
   %>
@@ -60,21 +72,21 @@
     <%=
       render(
           partial: 'shared/admin/list_with_priority',
-          locals: { collection: @entity.poll_questions.ordered_by_priority }
+          locals:  { collection: @entity.poll_questions.ordered_by_priority }
       )
     %>
   </section>
 
   <% if @entity.poll_questions.count < 10 %>
-      <section>
-        <h2><%= t('poll_questions.new.heading') %></h2>
+    <section>
+      <h2><%= t('poll_questions.new.heading') %></h2>
 
-        <%=
-          render(
-              partial: 'poll_questions/form',
-              locals: { entity: @entity.poll_questions.new }
-          )
-        %>
-      </section>
+      <%=
+        render(
+            partial: 'poll_questions/form',
+            locals:  { entity: @entity.poll_questions.new }
+        )
+      %>
+    </section>
   <% end %>
 </article>

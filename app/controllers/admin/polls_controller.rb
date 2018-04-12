@@ -17,13 +17,13 @@ class Admin::PollsController < AdminController
     @collection = @entity.poll_users.list_for_administration
   end
 
-  # put /admin/polls/:id/users/:user_id
+  # post /admin/polls/:id/users
   def add_user
     user = User.find_by(id: params[:user_id])
 
     @entity.add_user(user) unless user.nil?
 
-    head :no_content
+    render :users
   end
 
   # delete /admin/polls/:id/users/:user_id
@@ -32,7 +32,7 @@ class Admin::PollsController < AdminController
 
     @entity.remove_user(user) unless user.nil?
 
-    head :no_content
+    render :users
   end
 
   private

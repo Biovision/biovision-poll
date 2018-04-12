@@ -7,15 +7,15 @@ Rails.application.routes.draw do
         get 'results'
       end
     end
-    resources :poll_questions, :poll_answers, except: [:index, :new, :show]
+    resources :poll_questions, :poll_answers, only: [:create, :edit]
 
     namespace :admin do
       resources :polls, only: [:index, :show] do
         member do
           post 'toggle', defaults: { format: :json }
           get 'users'
-          put 'users/:user_id' => :add_user, defaults: { format: :json }, as: :user
-          delete 'users/:user_id' => :remove_user, defaults: { format: :json }
+          post 'users' => :add_user, defaults: { format: :json }
+          delete 'users/:user_id' => :remove_user, as: :user, defaults: { format: :json }
         end
       end
       resources :poll_questions, only: [:show] do
@@ -31,4 +31,6 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :polls, :poll_questions, :poll_answers, only: [:update, :destroy]
 end

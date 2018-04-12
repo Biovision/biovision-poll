@@ -74,6 +74,14 @@ ru:
         title: "Опросы, страница %{page}"
       show:
         title: "Опрос «%{name}»"
+        allowed_users: "Допущенные пользователи"
+      users:
+        title: "Опрос «%{name}»: допущенные пользователи, страница %{page}"
+        heading: "Допущенные пользователи"
+      entity:
+        user_filter:
+          heading: "Добавить пользователя"
+          add_user: "Добавить пользователя"
     poll_questions:
       show:
         title: "Опрос «%{poll}»: %{question}"
