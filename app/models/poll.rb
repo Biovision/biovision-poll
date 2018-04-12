@@ -6,7 +6,7 @@ class Poll < ApplicationRecord
   NAME_LIMIT        = 140
   DESCRIPTION_LIMIT = 255
 
-  toggleable %i(active anonymous_votes open_results show_on_homepage visible)
+  toggleable %i(active anonymous_votes open_results show_on_homepage visible exclusive)
 
   mount_uploader :image, PollImageUploader
 
@@ -15,6 +15,7 @@ class Poll < ApplicationRecord
   belongs_to :region, optional: true if Gem.loaded_specs.key?('biovision-regions')
   belongs_to :pollable, polymorphic: true, optional: true
   has_many :poll_questions, dependent: :delete_all
+  has_many :poll_users, dependent: :delete_all
 
   validates_presence_of :name
   validates_length_of :name, maximum: NAME_LIMIT
@@ -57,5 +58,10 @@ class Poll < ApplicationRecord
 
   def regional?
     !region_id.nil?
+  end
+
+  # @param [User] user
+  def includes?(user)
+    poll_users.owned_by(user).exists?
   end
 end

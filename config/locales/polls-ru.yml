@@ -22,6 +22,7 @@ ru:
       poll: "Опрос"
       poll_answer: "Ответ на вопрос"
       poll_question: "Вопрос"
+      poll_user: "Допущенный к голосованию пользователь"
       poll_vote: "Голос в опросе"
     attributes:
       poll:
@@ -54,6 +55,10 @@ ru:
         poll_id: "Опрос"
         priority: "Порядок сортировки"
         text: "Текст"
+      poll_user:
+        poll: "Опрос"
+        user: "Пользователь"
+        user_id: "Пользователь"
       poll_vote:
         footprint: "Отпечаток"
         poll_answer: "Ответ"

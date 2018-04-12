@@ -14,6 +14,7 @@ class CreatePolls < ActiveRecord::Migration[5.1]
         t.boolean :show_on_homepage, default: true, null: false
         t.boolean :anonymous_votes, default: true, null: false
         t.boolean :open_results, default: true, null: false
+        t.boolean :exclusive, default: false, null: false
         t.date :end_date
         t.integer :poll_questions_count, default: 0, null: false
         t.integer :comments_count, default: 0, null: false
