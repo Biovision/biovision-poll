@@ -1,0 +1,10 @@
+<% if current_user_in_group?(:poll_managers) %>
+  <nav>
+    <div class="heading" id="biovision-poll-nav-heading">
+      <%= t('.heading') %>
+    </div>
+    <ul aria-labelledby="biovision-poll-nav-heading">
+      <li><%= render 'admin/polls/nav_item' %></li>
+    </ul>
+  </nav>
+<% end %>

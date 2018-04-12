@@ -1,26 +1,42 @@
-<%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+<% entity_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{entity_name}-form" } do |f| %>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+  <dl>
+    <% unless entity.id.nil? %>
+      <dt><%= t('activerecord.attributes.poll_answer.poll_question_id') %></dt>
+      <dd><%= admin_poll_question_link(entity.poll_question) %></dd>
+    <% end %>
 
-<%= form_for entity do |f| %>
-    <dl>
-      <% unless entity.id.nil? %>
-          <dt><%= t('activerecord.attributes.poll_answer.poll_question_id') %></dt>
-          <dd><%= admin_poll_question_link(entity.poll_question) %></dd>
-      <% end %>
+    <dt><%= f.label :priority %></dt>
+    <dd>
+      <%=
+        f.number_field(
+            :priority,
+            id:       :poll_answer_priority,
+            in:       PollAnswer::PRIORITY_RANGE,
+            required: true
+        )
+      %>
+    </dd>
 
-      <dt><%= f.label :priority %></dt>
-      <dd>
-        <%= f.number_field :priority, in: PollAnswer::PRIORITY_RANGE, required: true %>
-      </dd>
+    <dt><%= f.label :text %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :text,
+            id:          :poll_answer_text,
+            required:    true,
+            size:        nil,
+            maxlength:   PollAnswer::TEXT_LIMIT,
+            placeholder: t('.placeholders.text')
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.text') %></div>
+    </dd>
+  </dl>
 
-      <dt><%= f.label :text %></dt>
-      <dd>
-        <%= f.text_field :text, required: true, size: nil, maxlength: PollAnswer::TEXT_LIMIT, placeholder: t('.placeholders.text') %>
-        <div class="guideline"><%= t('.guidelines.text') %></div>
-      </dd>
-    </dl>
-
-    <div class="buttons">
-      <%= f.hidden_field :poll_question_id if entity.id.nil? %>
-      <%= f.button t(:save), type: :submit %>
-    </div>
+  <div class="buttons">
+    <%= f.hidden_field :poll_question_id if entity.id.nil? %>
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+  </div>
 <% end %>

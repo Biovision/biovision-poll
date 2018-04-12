@@ -74,6 +74,10 @@ ru:
     poll_answers:
       show:
         title: "Опрос «%{poll}»: %{question} — «%{answer}»"
+    index:
+      dashboard:
+        biovision_poll:
+          heading: "Опросы"
   polls:
     new:
       heading: "Новый опрос"

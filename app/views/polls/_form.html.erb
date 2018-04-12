@@ -1,46 +1,63 @@
-<%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+<% entity_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{entity_name}-form" } do |f| %>
+  <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
+  <dl>
+    <dt><%= f.label :name %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :name,
+            id:          :poll_name,
+            required:    true,
+            size:        nil,
+            maxlength:   Poll::NAME_LIMIT,
+            placeholder: t('.placeholders.name')
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.name') %></div>
+    </dd>
 
-<%= form_for entity do |f| %>
-    <figure class="preview" id="poll-image">
-      <% if entity.image.blank? %>
-          <% image_path = 'biovision/base/placeholders/image.svg' %>
-      <% else %>
-          <% image_path = entity.image.url %>
-      <% end %>
-      <%= label_tag(:poll_image, image_tag(image_path, alt: t('activerecord.attributes.poll.image'))) %>
-      <figcaption>
-        <%= f.label :image %>
-        <%= f.file_field :image, accept: 'image/jpeg,image/png', data: { image: 'poll-image' } %>
-        <div class="guideline"><%= t('.guidelines.image') %></div>
-      </figcaption>
-    </figure>
+<!--
+    <dt><%= f.label :description %></dt>
+    <dd>
+      <%=
+        f.text_field(
+            :description,
+            id:          :poll_description,
+            size:        nil,
+            maxlength:   Poll::DESCRIPTION_LIMIT,
+            placeholder: t('.placeholders.description')
+        )
+      %>
+      <div class="guideline"><%= t('.guidelines.description') %></div>
+    </dd>
+-->
 
-    <dl>
-      <dt><%= f.label :name %></dt>
-      <dd>
-        <%= f.text_field :name, required: true, size: nil, maxlength: Poll::NAME_LIMIT, placeholder: t('.placeholders.name') %>
-        <div class="guideline"><%= t('.guidelines.name') %></div>
-      </dd>
+    <dt><%= f.label :end_date %></dt>
+    <dd>
+      <%=
+        f.date_field(
+            :end_date,
+            id:   :poll_end_date,
+            size: 10
+        )
+      %>
+    </dd>
 
-      <dt><%= f.label :description %></dt>
-      <dd>
-        <%= f.text_field :description, size: nil, maxlength: Poll::DESCRIPTION_LIMIT, placeholder: t('.placeholders.description') %>
-        <div class="guideline"><%= t('.guidelines.description') %></div>
-      </dd>
+    <dt><%= t(:flags) %></dt>
+    <dd>
+      <ul class="flags">
+        <% Poll.toggleable_attributes.each do |flag| %>
+          <li>
+            <%= f.check_box flag, id: "#{entity_name}_#{flag}" %>
+            <%= f.label flag %>
+          </li>
+        <% end %>
+      </ul>
+    </dd>
+  </dl>
 
-      <dt><%= f.label :end_date %></dt>
-      <dd>
-        <%= f.date_field :end_date, size: 10 %>
-      </dd>
-    </dl>
-
-    <ul class="flags">
-      <% Poll.toggleable_attributes.each do |flag| %>
-          <li><%= f.check_box flag %><%= f.label flag %></li>
-      <% end %>
-    </ul>
-
-    <div class="buttons">
-      <%= f.button t(:save), type: :submit %>
-    </div>
+  <div class="buttons">
+    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+  </div>
 <% end %>
