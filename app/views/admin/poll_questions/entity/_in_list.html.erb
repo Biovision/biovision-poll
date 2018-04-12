@@ -12,10 +12,23 @@
     <%= t(:poll_answer_count, count: entity.poll_answers_count) %>
   </div>
 
-  <%= render partial: 'admin/poll_questions/toggleable', locals: { entity: entity } %>
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals: {
+            entity: entity,
+            url: toggle_admin_poll_question_path(id: entity.id)
+        }
+    )
+  %>
 
   <ul class="actions">
-    <li><%= edit_icon(edit_poll_question_path(entity.id)) %></li>
-    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_poll_question_path(entity.id) } %>
+    <li><%= edit_icon(edit_poll_question_path(id: entity.id)) %></li>
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_poll_question_path(id: entity.id) }
+      )
+    %>
   </ul>
 </div>

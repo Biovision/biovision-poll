@@ -10,7 +10,7 @@
 
   <% unless @entity.poll_id.nil? %>
       <ul class="actions">
-        <li><%= return_icon(admin_poll_path(@entity.poll_id)) %></li>
+        <li><%= return_icon(admin_poll_path(id: @entity.poll_id)) %></li>
       </ul>
   <% end %>
 

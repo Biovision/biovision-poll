@@ -12,7 +12,7 @@ class Poll < ApplicationRecord
 
   belongs_to :user
   belongs_to :agent, optional: true
-  belongs_to :region, optional: true
+  belongs_to :region, optional: true if Gem.loaded_specs.key?('biovision-regions')
   belongs_to :pollable, polymorphic: true, optional: true
   has_many :poll_questions, dependent: :delete_all
 

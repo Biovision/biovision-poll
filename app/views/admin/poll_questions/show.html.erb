@@ -9,8 +9,8 @@
   <h1><%= @entity.text %></h1>
 
   <ul class="actions">
-    <li><%= return_icon(admin_poll_path(@entity.poll_id)) %></li>
-    <li><%= edit_icon(edit_poll_question_path(@entity.id)) %></li>
+    <li><%= return_icon(admin_poll_path(id: @entity.poll_id)) %></li>
+    <li><%= edit_icon(edit_poll_question_path(id: @entity.id)) %></li>
   </ul>
 
   <% unless @entity.image.blank? %>
@@ -54,12 +54,25 @@
     <% end %>
   </dl>
 
-  <%= render partial: 'admin/poll_questions/toggleable', locals: { entity: @entity } %>
+  <%=
+    render(
+        partial: 'shared/admin/toggleable',
+        locals: {
+            entity: @entity,
+            url: toggle_admin_poll_question_path(id: @entity.id)
+        }
+    )
+  %>
 
   <section>
     <h2><%= t(:poll_answer_count, count: @entity.poll_answers_count) %></h2>
 
-    <%= render partial: 'shared/admin/list_with_priority', locals: { collection: @entity.poll_answers.ordered_by_priority } %>
+    <%=
+      render(
+          partial: 'shared/admin/list_with_priority',
+          locals: { collection: @entity.poll_answers.ordered_by_priority }
+      )
+    %>
   </section>
 
   <% if @entity.poll_answers.count < 10 %>

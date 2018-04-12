@@ -5,9 +5,9 @@ class PollAnswersController < AdminController
   def create
     @entity = PollAnswer.new(creation_parameters)
     if @entity.save
-      redirect_to admin_poll_question_path(@entity.poll_question_id)
+      form_processed_ok(admin_poll_question_path(id: @entity.poll_question_id))
     else
-      render :new, status: :bad_request
+      form_processed_with_error(:new)
     end
   end
 
@@ -18,9 +18,9 @@ class PollAnswersController < AdminController
   # patch /poll_answers/:id
   def update
     if @entity.update(entity_parameters)
-      redirect_to admin_poll_question_path(@entity.poll_question_id), notice: t('poll_answers.update.success')
+      form_processed_ok(admin_poll_question_path(id: @entity.poll_question_id))
     else
-      render :edit, status: :bad_request
+      form_processed_with_error(:edit)
     end
   end
 
@@ -29,7 +29,7 @@ class PollAnswersController < AdminController
     if @entity.destroy
       flash[:notice] = t('poll_answers.destroy.success')
     end
-    redirect_to(admin_poll_question_path(@entity.poll_question_id))
+    redirect_to(admin_poll_question_path(id: @entity.poll_question_id))
   end
 
   protected

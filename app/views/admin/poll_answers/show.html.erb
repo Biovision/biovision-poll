@@ -10,8 +10,8 @@
   <h1><%= @entity.text %></h1>
 
   <ul class="actions">
-    <li><%= return_icon(admin_poll_question_path(@entity.poll_question_id)) %></li>
-    <li><%= edit_icon(edit_poll_answer_path(@entity.id)) %></li>
+    <li><%= return_icon(admin_poll_question_path(id: @entity.poll_question_id)) %></li>
+    <li><%= edit_icon(edit_poll_answer_path(id: @entity.id)) %></li>
   </ul>
 
   <% unless @entity.image.blank? %>

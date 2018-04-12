@@ -19,9 +19,17 @@
     <%= t(:poll_question_count, count: entity.poll_questions_count) %>
   </div>
 
-  <%= render partial: 'admin/polls/toggleable', locals: { entity: entity } %>
+  <%=
+    render(
+        partial: 'shread/admin/toggleable',
+        locals: {
+            entity: entity,
+            url: toggle_admin_poll_path(id: entity.id)
+        }
+    )
+  %>
 
   <ul class="actions">
-    <li><%= edit_icon(edit_poll_path(entity)) %></li>
+    <li><%= edit_icon(edit_poll_path(id: entity.id)) %></li>
   </ul>
 </div>

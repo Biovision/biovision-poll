@@ -8,7 +8,12 @@
   </div>
 
   <ul class="actions">
-    <li><%= edit_icon(edit_poll_answer_path(entity)) %></li>
-    <%= render partial: 'shared/actions/priority_changer', locals: { path: priority_admin_poll_answer_path(entity.id) } %>
+    <li><%= edit_icon(edit_poll_answer_path(id: entity.id)) %></li>
+    <%=
+      render(
+          partial: 'shared/actions/priority_changer',
+          locals: { path: priority_admin_poll_answer_path(id: entity.id) }
+      )
+    %>
   </ul>
 </div>

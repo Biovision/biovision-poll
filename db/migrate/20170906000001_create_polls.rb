@@ -3,9 +3,9 @@ class CreatePolls < ActiveRecord::Migration[5.1]
     unless Poll.table_exists?
       create_table :polls do |t|
         t.timestamps
-        t.references :user, foreign_key: true, null: false, on_update: :cascade, on_delete: :cascade
-        t.references :region, foreign_key: true, on_update: :cascade, on_delete: :cascade
-        t.references :agent, foreign_key: true, on_update: :cascade, on_delete: :nullify
+        t.references :user, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
+        t.integer :region_id, index: true
+        t.references :agent, foreign_key: { on_update: :cascade, on_delete: :nullify }
         t.inet :ip
         t.integer :pollable_id
         t.string :pollable_type
@@ -20,6 +20,10 @@ class CreatePolls < ActiveRecord::Migration[5.1]
         t.string :image
         t.string :name
         t.string :description
+      end
+
+      if Gem.loaded_specs.key?('biovision-regions')
+        add_foreign_key :polls, :regions, column: :region_id, on_update: :cascade, on_delete: :cascade
       end
 
       create_privileges

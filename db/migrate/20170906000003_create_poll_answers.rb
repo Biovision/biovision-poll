@@ -3,7 +3,7 @@ class CreatePollAnswers < ActiveRecord::Migration[5.1]
     unless PollAnswer.table_exists?
       create_table :poll_answers do |t|
         t.timestamps
-        t.references :poll_question, foreign_key: true, null: false, on_update: :cascade, on_delete: :cascade
+        t.references :poll_question, null: false, foreign_key: { on_update: :cascade, on_delete: :cascade }
         t.integer :priority, limit: 2, default: 1, null: false
         t.integer :poll_votes_count, default: 0, null: false
         t.string :image
