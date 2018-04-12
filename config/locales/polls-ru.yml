@@ -30,6 +30,7 @@ ru:
         anonymous_votes: "Разрешить анонимные голоса"
         description: "Описание"
         end_date: "Дата окончания"
+        exclusive: "Эксклюзивный"
         image: "Картинка"
         name: "Название"
         open_results: "Результаты видны всем"

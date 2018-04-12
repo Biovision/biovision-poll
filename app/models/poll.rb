@@ -64,4 +64,14 @@ class Poll < ApplicationRecord
   def includes?(user)
     poll_users.owned_by(user).exists?
   end
+
+  # @param [User] user
+  def add_user(user)
+    PollUser.create(poll: self, user: user)
+  end
+
+  # @param [User] user
+  def remove_user(user)
+    poll_users.owned_by(user).delete_all
+  end
 end

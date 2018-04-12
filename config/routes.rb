@@ -13,6 +13,9 @@ Rails.application.routes.draw do
       resources :polls, only: [:index, :show] do
         member do
           post 'toggle', defaults: { format: :json }
+          get 'users'
+          put 'users/:user_id' => :add_user, defaults: { format: :json }, as: :user
+          delete 'users/:user_id' => :remove_user, defaults: { format: :json }
         end
       end
       resources :poll_questions, only: [:show] do

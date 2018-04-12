@@ -12,6 +12,29 @@ class Admin::PollsController < AdminController
   def show
   end
 
+  # get /admin/polls/:id/users
+  def users
+    @collection = @entity.poll_users.list_for_administration
+  end
+
+  # put /admin/polls/:id/users/:user_id
+  def add_user
+    user = User.find_by(id: params[:user_id])
+
+    @entity.add_user(user) unless user.nil?
+
+    head :no_content
+  end
+
+  # delete /admin/polls/:id/users/:user_id
+  def remove_user
+    user = User.find_by(id: params[:user_id])
+
+    @entity.remove_user(user) unless user.nil?
+
+    head :no_content
+  end
+
   private
 
   def restrict_access
