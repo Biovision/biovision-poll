@@ -23,7 +23,7 @@ class Poll < ApplicationRecord
 
   scope :recent, -> { order('id desc') }
   scope :visible, -> { where(visible: true) }
-  scope :active, -> { where('active = true and (end_date is null or (date(end_date) >= date(now()))') }
+  scope :active, -> { visible.where('active = true and (end_date is null or (date(end_date) >= date(now())))') }
 
   # @param [Integer] page
   def self.page_for_administration(page = 1)
@@ -52,6 +52,20 @@ class Poll < ApplicationRecord
   end
 
   # @param [User] user
+  def votable_by?(user)
+    return false if user.nil? || voted?(user)
+    if exclusive?
+      includes?(user)
+    # elsif anonymous_votes?
+    end
+  end
+
+  # @param [User] user
+  def voted?(user)
+    PollVote.where(poll_answer_id: answer_ids).exists?(user: user)
+  end
+
+  # @param [User] user
   def show_results?(user)
     open_results? || editable_by?(user)
   end
@@ -73,5 +87,27 @@ class Poll < ApplicationRecord
   # @param [User] user
   def remove_user(user)
     poll_users.owned_by(user).delete_all
+  end
+
+  def answer_ids
+    PollAnswer.where(poll_question_id: poll_questions.pluck(:id)).pluck(:id)
+  end
+
+  # @param [User] user
+  # @param [Hash] answers
+  def process_answers(user, answers)
+    return unless votable_by?(user)
+    answers.each do |question_id, answer_ids|
+      question = PollQuestion.find_by(id: question_id)
+      next if question.nil? || question.poll_id != id
+      if question.multiple_choice?
+        answers = question.poll_answers.where(id: answer_ids)
+      else
+        answers = question.poll_answers.where(id: answer_ids.first)
+      end
+      answers.each do |answer|
+        PollVote.create(poll_answer: answer, user: user)
+      end
+    end
   end
 end

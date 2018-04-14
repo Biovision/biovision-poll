@@ -54,7 +54,9 @@ class PollsController < ApplicationController
 
   # post /polls/:id/results
   def answer
-    redirect_to results_poll_path(id: @entity.id)
+    @entity.process_answers(current_user, params.require(:answer))
+
+    redirect_to root_path(id: @entity.id)
   end
 
   # get /polls/:id/results
