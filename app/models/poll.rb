@@ -57,12 +57,14 @@ class Poll < ApplicationRecord
     if exclusive?
       includes?(user)
     # elsif anonymous_votes?
+    else
+      true
     end
   end
 
   # @param [User] user
   def voted?(user)
-    PollVote.where(poll_answer_id: answer_ids).exists?(user: user)
+    PollVote.where(poll_answer_id: answer_ids, user: user).exists?
   end
 
   # @param [User] user
