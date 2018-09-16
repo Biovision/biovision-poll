@@ -1,5 +1,5 @@
-<% entity_name = entity.class.to_s.underscore %>
-<%= form_with model: entity, html: { id: "#{entity_name}-form" } do |f| %>
+<% model_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
   <dl>
     <% unless entity.id.nil? %>
@@ -12,7 +12,7 @@
       <%=
         f.number_field(
             :priority,
-            id:       :poll_question_priority,
+            id:       "#{model_name}_priority",
             in:       PollQuestion::PRIORITY_RANGE,
             required: true
         )
@@ -24,7 +24,7 @@
       <%=
         f.text_field(
             :text,
-            id:          :poll_question_text,
+            id:          "#{model_name}_text",
             required:    true,
             size:        nil,
             maxlength:   PollQuestion::TEXT_LIMIT,
@@ -40,7 +40,7 @@
       <%=
         f.text_field(
             :comment,
-            id:          :poll_question_comment,
+            id:          "#{model_name}_comment",
             size:        nil,
             maxlength:   PollQuestion::COMMENT_LIMIT,
             placeholder: t('.placeholders.comment')
@@ -50,18 +50,10 @@
     </dd>
 -->
 
-    <dt><%= t(:flags) %></dt>
-    <dd class="flags">
-      <ul class="flags">
-        <% PollQuestion.toggleable_attributes.each do |flag| %>
-          <li>
-            <%= f.check_box flag, id: "#{entity_name}_#{flag}" %>
-            <%= f.label flag %>
-          </li>
-        <% end %>
-      </ul>
-    </dd>
+    <%= render(partial: 'shared/forms/entity_flags', locals: { f: f }) %>
   </dl>
+
+  <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">
     <%= f.hidden_field :poll_id if entity.id.nil? %>

@@ -38,6 +38,10 @@ class PollQuestion < ApplicationRecord
     poll.editable_by?(user)
   end
 
+  def vote_count
+    poll_answers.pluck(:poll_votes_count).reduce(&:+)
+  end
+
   # @param [Integer] delta
   def change_priority(delta)
     new_priority = priority + delta

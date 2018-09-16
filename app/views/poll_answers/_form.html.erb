@@ -1,5 +1,5 @@
-<% entity_name = entity.class.to_s.underscore %>
-<%= form_with model: entity, html: { id: "#{entity_name}-form" } do |f| %>
+<% model_name = entity.class.to_s.underscore %>
+<%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
   <dl>
     <% unless entity.id.nil? %>
@@ -12,7 +12,7 @@
       <%=
         f.number_field(
             :priority,
-            id:       :poll_answer_priority,
+            id:       "#{model_name}_priority",
             in:       PollAnswer::PRIORITY_RANGE,
             required: true
         )
@@ -24,7 +24,7 @@
       <%=
         f.text_field(
             :text,
-            id:          :poll_answer_text,
+            id:          "#{model_name}_text",
             required:    true,
             size:        nil,
             maxlength:   PollAnswer::TEXT_LIMIT,
@@ -34,6 +34,8 @@
       <div class="guideline"><%= t('.guidelines.text') %></div>
     </dd>
   </dl>
+
+  <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">
     <%= f.hidden_field :poll_question_id if entity.id.nil? %>

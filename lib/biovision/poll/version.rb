@@ -1,5 +1,5 @@
 module Biovision
   module Poll
-    VERSION = '0.0.180412'
+    VERSION = '0.1.180917.0'
   end
 end

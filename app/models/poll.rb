@@ -6,7 +6,7 @@ class Poll < ApplicationRecord
   NAME_LIMIT        = 140
   DESCRIPTION_LIMIT = 255
 
-  toggleable %i(active anonymous_votes open_results show_on_homepage visible exclusive)
+  toggleable %i[active anonymous_votes open_results show_on_homepage visible exclusive]
 
   mount_uploader :image, PollImageUploader
 

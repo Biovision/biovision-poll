@@ -7,7 +7,7 @@ class CreatePollVotes < ActiveRecord::Migration[5.1]
         t.references :user, foreign_key: true, on_update: :cascade, on_delete: :cascade
         t.references :agent, foreign_key: true, on_update: :cascade, on_delete: :nullify
         t.inet :ip
-        t.string :footprint
+        t.string :slug
       end
     end
   end

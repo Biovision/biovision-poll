@@ -36,6 +36,10 @@ class PollAnswer < ApplicationRecord
     poll_question&.poll
   end
 
+  def vote_percent
+    poll_votes_count.to_f / poll_question.vote_count * 100
+  end
+
   # @param [Integer] delta
   def change_priority(delta)
     new_priority = priority + delta

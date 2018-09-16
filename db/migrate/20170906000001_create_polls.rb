@@ -37,20 +37,28 @@ class CreatePolls < ActiveRecord::Migration[5.1]
     end
   end
 
+  private
+
   def create_privileges
-    Privilege.create(slug: 'chief_poll_manager', name: 'Главный управляющий опросами')
+    Privilege.create(
+      slug: 'chief_poll_manager',
+      name: 'Главный управляющий опросами',
+      administrative: true
+    )
     chief = Privilege.find_by!(slug: 'chief_poll_manager')
 
     Privilege.create(
       slug: 'poll_manager',
       name: 'Управляющий опросами центра',
-      parent_id: chief
+      parent_id: chief,
+      administrative: true
     )
     Privilege.create(
       slug: 'regional_poll_manager',
       name: 'Управляющий опросами региона',
       parent_id: chief,
-      regional: true
+      regional: true,
+      administrative: true
     )
 
     PrivilegeGroup.create(slug: 'poll_managers', name: 'Управляющие опросами')

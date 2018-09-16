@@ -61,7 +61,7 @@ ru:
         user: "Пользователь"
         user_id: "Пользователь"
       poll_vote:
-        footprint: "Отпечаток"
+        slug: "Идентификатор"
         poll_answer: "Ответ"
         user: "Пользователь"
   admin:
