@@ -36,6 +36,8 @@
     <%= render partial: 'shared/entity/timestamps', locals: { entity: @entity } %>
   </dl>
 
+  <%= render partial: 'admin/poll_answers/entity/data', locals: { entity: @entity } %>
+
   <section>
     <h2><%= t(:poll_vote_count, count: @entity.poll_votes_count) %></h2>
 

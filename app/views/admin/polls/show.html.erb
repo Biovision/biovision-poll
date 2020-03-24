@@ -27,16 +27,22 @@
   <% end %>
 
   <dl>
-    <dt><%= t('activerecord.attributes.poll.name') %></dt>
-    <dd>
-      <%= @entity.name %>
-    </dd>
+    <div>
+      <dt><%= t('activerecord.attributes.poll.name') %></dt>
+      <dd>
+        <%= @entity.name %>
+      </dd>
+    </div>
 
     <% unless @entity.description.blank? %>
-      <dt><%= t('activerecord.attributes.poll.description') %></dt>
-      <dd>
-        <%= @entity.description %>
-      </dd>
+      <div>
+        <dt><%= t('activerecord.attributes.poll.description') %></dt>
+        <dd>
+          <div class="text">
+            <%= @entity.description %>
+          </div>
+        </dd>
+      </div>
     <% end %>
 
     <% unless @entity.end_date.blank? %>
@@ -49,6 +55,8 @@
     <%= render partial: 'shared/entity/uuid', locals: { entity: @entity } %>
     <%= render partial: 'shared/entity/timestamps', locals: { entity: @entity } %>
   </dl>
+
+  <%= render partial: 'admin/polls/entity/data', locals: { entity: @entity } %>
 
   <%=
     render(
