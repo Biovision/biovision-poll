@@ -1,53 +1,62 @@
 <% model_name = entity.class.to_s.underscore %>
-<%= form_with model: entity, html: { id: "#{model_name}-form" } do |f| %>
+<%=
+  form_with(
+      model: entity,
+      html: {
+          id: "#{model_name}-form",
+          data: { check_url: check_poll_questions_path }
+      }
+  ) do |f|
+%>
   <%= render partial: 'shared/list_of_errors', locals: { entity: entity } %>
-  <dl>
+
+  <dl class="fields">
     <% unless entity.id.nil? %>
-      <dt><%= t('activerecord.attributes.poll_question.poll_id') %></dt>
-      <dd><%= admin_poll_link(entity.poll) %></dd>
+      <div>
+        <dt><%= t('attributes.poll') %></dt>
+        <dd><%= admin_poll_link(entity.poll) %></dd>
+      </div>
     <% end %>
 
-    <dt><%= f.label :priority %></dt>
-    <dd>
-      <%=
-        f.number_field(
-            :priority,
-            id:       "#{model_name}_priority",
-            in:       PollQuestion::PRIORITY_RANGE,
-            required: true
-        )
-      %>
-    </dd>
+    <%= render partial: 'shared/forms/priority', locals: { f: f } %>
 
-    <dt><%= f.label :text %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :text,
-            id:          "#{model_name}_text",
-            required:    true,
-            size:        nil,
-            maxlength:   PollQuestion::TEXT_LIMIT,
-            placeholder: t('.placeholders.text')
-        )
-      %>
-      <div class="guideline"><%= t('.guidelines.text') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :text %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :text,
+              class: 'input-text',
+              data: { check: :name },
+              maxlength: PollQuestion::TEXT_LIMIT,
+              placeholder: t('.placeholders.text'),
+              required: true,
+              size: nil
+          )
+        %>
+        <div class="check-result-error" data-field="name"></div>
+        <div class="guideline"><%= t('.guidelines.text') %></div>
+      </dd>
+    </div>
 
 <!--
-    <dt><%= f.label :comment %></dt>
-    <dd>
-      <%=
-        f.text_field(
-            :comment,
-            id:          "#{model_name}_comment",
-            size:        nil,
-            maxlength:   PollQuestion::COMMENT_LIMIT,
-            placeholder: t('.placeholders.comment')
-        )
-      %>
-      <div class="guideline"><%= t('.guidelines.comment') %></div>
-    </dd>
+    <div>
+      <dt><%= f.label :comment %></dt>
+      <dd>
+        <%=
+          f.text_field(
+              :comment,
+              class: 'input-text',
+              data: { check: :comment },
+              maxlength: PollQuestion::COMMENT_LIMIT,
+              placeholder: t('.placeholders.comment'),
+              size: nil
+          )
+        %>
+        <div class="check-result-error" data-field="comment"></div>
+        <div class="guideline"><%= t('.guidelines.comment') %></div>
+      </dd>
+    </div>
 -->
 
     <%= render(partial: 'shared/forms/entity_flags', locals: { f: f }) %>
@@ -56,7 +65,8 @@
   <%= render 'shared/forms/state_container' %>
 
   <div class="buttons">
+    <%= hidden_field_tag :entity_id, entity.id %>
     <%= f.hidden_field :poll_id if entity.id.nil? %>
-    <%= f.button t(:save), type: :submit, class: 'button-save' %>
+    <%= f.button t(:save), class: 'button-save' %>
   </div>
 <% end %>

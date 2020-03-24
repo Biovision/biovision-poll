@@ -1,16 +1,16 @@
 <div class="data">
   <div><%= admin_user_link(entity.user) %></div>
   <div class="info">
-    <%= entity.ip %>,
     <%= time_tag(entity.created_at) %>
   </div>
   <div class="secondary info">
-    <%= t('activerecord.attributes.poll_vote.footprint') %>:
-    <%= entity.footprint %>
+    <%= t('attributes.slug') %>:
+    <%= entity.slug %>
   </div>
-  <% unless entity.agent.nil? %>
       <div class="secondary info">
         <%= entity.agent.name %>
       </div>
-  <% end %>
+  <div class="secondary info">
+    <%= entity.uuid %>
+  </div>
 </div>

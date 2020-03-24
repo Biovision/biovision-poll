@@ -1,11 +1,12 @@
 <% content_for :meta_title, t('.title') %>
 <% content_for :breadcrumbs do %>
-    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
-    <%= admin_poll_link(@entity) %>
-    <span><%= t(:edit) %></span>
+  <%= admin_biovision_component_link(component_handler.component) %>
+  <%= link_to(t('admin.polls.index.nav_text'), admin_polls_path) %>
+  <%= admin_poll_link(@entity) %>
+  <span><%= t('.nav_text') %></span>
 <% end %>
 
-<article class="entity-page">
+<article>
   <h1><%= t('.heading') %></h1>
 
   <ul class="actions">

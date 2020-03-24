@@ -1,6 +1,3 @@
-<div class="image">
-  <%= poll_image_preview(entity) %>
-</div>
 <div class="data">
   <div><%= admin_poll_question_link(entity) %></div>
   <% unless entity.comment.blank? %>
@@ -9,11 +6,15 @@
     </div>
   <% end %>
   <div class="secondary info">
-    <%= t(:poll_answer_count, count: entity.poll_answers_count) %>
+    <%= t(:poll_answer_count, count: entity.poll_answers_count) %>,
+    <%= t(:poll_vote_count, count: entity.vote_count) %>
     <% if entity.poll_answers.any? %>
       <ol>
         <% entity.poll_answers.ordered_by_priority.each do |answer| %>
-          <li><%= admin_poll_answer_link(answer) %></li>
+          <li>
+            <%= admin_poll_answer_link(answer) %>:
+            <%= answer.poll_votes_count %> (<%= answer.vote_percent %>%)
+          </li>
         <% end %>
       </ol>
     <% end %>

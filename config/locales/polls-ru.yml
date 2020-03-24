@@ -1,16 +1,16 @@
 ru:
-  poll_question_count:
-    zero: "вопросов нет"
-    one: "%{count} вопрос"
-    few: "%{count} вопроса"
-    many: "%{count} вопросов"
-    other: "%{count} вопросов"
   poll_answer_count:
     zero: "ответов нет"
     one: "%{count} ответ"
     few: "%{count} ответа"
     many: "%{count} ответов"
     other: "%{count} ответов"
+  poll_question_count:
+    zero: "вопросов нет"
+    one: "%{count} вопрос"
+    few: "%{count} вопроса"
+    many: "%{count} вопросов"
+    other: "%{count} вопросов"
   poll_vote_count:
     zero: "голосов нет"
     one: "%{count} голос"
@@ -27,51 +27,45 @@ ru:
     attributes:
       poll:
         active: "Можно голосовать"
+        allow_comments: "Разрешить комментарии"
         anonymous_votes: "Разрешить анонимные голоса"
         description: "Описание"
         end_date: "Дата окончания"
         exclusive: "Эксклюзивный"
-        image: "Картинка"
         name: "Название"
         open_results: "Результаты видны всем"
         pollable_id: "Связанный объект"
         pollable_type: "Тип связанного объекта"
-        region: "Регион"
-        region_id: "Регион"
         show_on_homepage: "Показывать на главной"
-        user: "Пользователь"
-        user_id: "Пользователь"
-        visible: "Показывать"
       poll_answer:
-        image: "Картинка"
         poll_question: "Вопрос"
         poll_question_id: "Вопрос"
-        priority: "Порядок сортировки"
         text: "Текст"
       poll_question:
         comment: "Комментарий"
-        image: "Картинка"
         multiple_choice: "Множественный выбор"
-        poll: "Опрос"
-        poll_id: "Опрос"
-        priority: "Порядок сортировки"
         text: "Текст"
-      poll_user:
-        poll: "Опрос"
-        user: "Пользователь"
-        user_id: "Пользователь"
       poll_vote:
-        slug: "Идентификатор"
         poll_answer: "Ответ"
-        user: "Пользователь"
+  attributes:
+    poll: "Опрос"
+    poll_id: "Опрос"
+  biovision:
+    components:
+      polls:
+        name: "Опросы"
+        settings:
+          answer_limit: "Лимит ответов"
+          question_limit: "Лимит вопросов"
   admin:
     polls:
       nav_item:
         description: "Управление опросами"
-        text: "Опросы"
+        text: "Список опросов"
       index:
-        heading: "Опросы"
+        heading: "Список опросов"
         title: "Опросы, страница %{page}"
+        nav_text: "Список опросов"
       show:
         title: "Опрос «%{name}»"
         allowed_users: "Допущенные пользователи"
@@ -96,9 +90,11 @@ ru:
     new:
       heading: "Новый опрос"
       title: "Новый опрос"
+      nav_text: "Создать опрос"
     edit:
       heading: "Редактирование опроса"
       title: "Редактирование опроса"
+      nav_text: "Редактировать"
     update:
       success: "Опрос успешно изменён"
     destroy:
@@ -124,6 +120,8 @@ ru:
       title: "Опрос «%{name}»"
     poll:
       answer: "Ответить"
+      you_have_voted: "Вы уже проголосовали"
+      see_results: "Посмотреть результаты"
     results:
       title: "Результаты опроса «%{name}»"
       heading: "Результаты опроса"
@@ -131,9 +129,11 @@ ru:
     new:
       heading: "Новый вопрос"
       title: "Новый вопрос"
+      nav_text: "Добавить вопрос"
     edit:
       heading: "Редактирование вопроса"
       title: "Редактирование вопроса"
+      nav_text: "Редактировать вопрос"
     update:
       success: "Вопрос успешно изменён"
     destroy:
@@ -150,9 +150,11 @@ ru:
     new:
       heading: "Новый ответ на вопрос"
       title: "Новый ответ на вопрос"
+      nav_text: "Добавить ответ"
     edit:
       heading: "Редактирование ответа на вопрос"
       title: "Редактирование ответа на вопрос"
+      nav_text: "Редактировать ответ"
     update:
       success: "Ответ на вопрос успешно изменён"
     destroy:

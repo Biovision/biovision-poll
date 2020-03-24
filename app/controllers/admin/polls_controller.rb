@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
+# Administrative part of handling polls
 class Admin::PollsController < AdminController
   include ToggleableEntity
   
-  before_action :set_entity, except: [:index]
+  before_action :set_entity, except: :index
 
   # get /admin/polls
   def index
@@ -37,14 +40,12 @@ class Admin::PollsController < AdminController
 
   private
 
-  def restrict_access
-    require_privilege_group :poll_managers
+  def component_class
+    Biovision::Components::PollsComponent
   end
 
   def set_entity
     @entity = Poll.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find poll')
-    end
+    handle_http_404('Cannot find poll') if @entity.nil?
   end
 end

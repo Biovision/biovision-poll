@@ -1,5 +1,15 @@
+# frozen_string_literal: true
+
+# Editing poll answers
 class PollAnswersController < AdminController
-  before_action :set_entity, only: [:edit, :update, :destroy]
+  before_action :set_entity, only: %i[edit update destroy]
+
+  # post /poll_answers/check
+  def check
+    @entity = PollAnswer.instance_for_check(params[:entity_id], entity_parameters)
+
+    render 'shared/forms/check'
+  end
 
   # post /poll_answers
   def create
@@ -26,23 +36,19 @@ class PollAnswersController < AdminController
 
   # delete /poll_answers/:id
   def destroy
-    if @entity.destroy
-      flash[:notice] = t('poll_answers.destroy.success')
-    end
+    flash[:notice] = t('.success') if @entity.destroy
     redirect_to(admin_poll_question_path(id: @entity.poll_question_id))
   end
 
   protected
 
-  def restrict_access
-    require_privilege_group :poll_managers
+  def component_class
+    Biovision::Components::PollsComponent
   end
 
   def set_entity
     @entity = PollAnswer.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find poll answer')
-    end
+    handle_http_404('Cannot find poll answer') if @entity.nil?
   end
 
   def entity_parameters

@@ -1,6 +1,3 @@
-<div class="image">
-  <%= poll_image_preview(entity) %>
-</div>
 <div class="data">
   <div><%= admin_poll_link(entity) %></div>
   <% unless entity.description.blank? %>
@@ -39,6 +36,7 @@
   %>
 
   <ul class="actions">
+    <li><%= world_icon(poll_path(id: entity.id)) %></li>
     <li><%= edit_icon(edit_poll_path(id: entity.id)) %></li>
   </ul>
 </div>

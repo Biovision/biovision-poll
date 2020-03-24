@@ -1,8 +1,18 @@
+# frozen_string_literal: true
+
+# Displaying and editing polls
 class PollsController < ApplicationController
-  before_action :restrict_access, except: [:index, :show, :results, :answer]
-  before_action :set_entity, except: [:index, :new, :create]
-  
-  layout 'admin', except: [:index, :show, :results]
+  before_action :restrict_access, except: %i[index show results answer]
+  before_action :set_entity, except: %i[check index new create]
+
+  layout 'admin', except: %i[check index show results]
+
+  # post /polls/check
+  def check
+    @entity = Poll.instance_for_check(params[:entity_id], entity_parameters)
+
+    render 'shared/forms/check'
+  end
 
   # get /polls
   def index
@@ -26,9 +36,7 @@ class PollsController < ApplicationController
 
   # get /polls/:id
   def show
-    unless @entity.visible_to?(current_user)
-      redirect_to polls_path
-    end
+    redirect_to polls_path unless @entity.visible_to?(current_user)
   end
 
   # get /polls/:id/edit
@@ -46,17 +54,15 @@ class PollsController < ApplicationController
 
   # delete /polls/:id
   def destroy
-    if @entity.destroy
-      flash[:notice] = t('polls.destroy.success')
-    end
+    flash[:notice] = t('.success') if @entity.destroy
     redirect_to(admin_polls_path)
   end
 
   # post /polls/:id/results
   def answer
-    @entity.process_answers(current_user, params.require(:answer))
+    @entity.process_answers(current_user, params.require(:answer), owner_for_entity(true), visitor_slug)
 
-    redirect_to root_path(id: @entity.id)
+    redirect_to results_poll_path(id: @entity.id)
   end
 
   # get /polls/:id/results
@@ -66,15 +72,18 @@ class PollsController < ApplicationController
 
   protected
 
+  def component_class
+    Biovision::Components::PollsComponent
+  end
+
   def restrict_access
-    require_privilege_group :poll_managers
+    error = 'Managing polls is not allowed for current user'
+    handle_http_401(error) unless component_handler.allow?
   end
 
   def set_entity
     @entity = Poll.find_by(id: params[:id])
-    if @entity.nil?
-      handle_http_404('Cannot find poll')
-    end
+    handle_http_404('Cannot find poll') if @entity.nil?
   end
 
   def entity_parameters

@@ -1,8 +1,9 @@
 <% content_for :meta_title, t('.title', poll: @entity.poll.name, question: @entity.text) %>
 <% content_for :breadcrumbs do %>
-    <%= link_to(t('admin.polls.nav_item.text'), admin_polls_path) %>
-    <%= admin_poll_link(@entity.poll) %>
-    <span><%= @entity.priority %>: <%= @entity.text %></span>
+  <%= admin_biovision_component_link(component_handler.component) %>
+  <%= link_to(t('admin.polls.index.nav_text'), admin_polls_path) %>
+  <%= admin_poll_link(@entity.poll) %>
+  <span><%= @entity.priority %>: <%= @entity.text %></span>
 <% end %>
 
 <article>
@@ -13,45 +14,34 @@
     <li><%= edit_icon(edit_poll_question_path(id: @entity.id)) %></li>
   </ul>
 
-  <% unless @entity.image.blank? %>
-      <figure>
-        <%= poll_image_medium(@entity) %>
-        <figcaption><%= t('activerecord.attributes.poll_question.image') %></figcaption>
-      </figure>
-  <% end %>
-
   <dl>
-    <dt><%= t(:created_at) %></dt>
-    <dd>
-      <%= time_tag(@entity.created_at) %>
-    </dd>
+    <div>
+      <dt><%= t('attributes.poll') %></dt>
+      <dd>
+        <%= admin_poll_link(@entity.poll) %>
+      </dd>
+    </div>
 
-    <dt><%= t(:updated_at) %></dt>
-    <dd>
-      <%= time_tag(@entity.updated_at) %>
-    </dd>
+    <%= render partial: 'shared/entity/priority', locals: { entity: @entity } %>
 
-    <dt><%= t('activerecord.attributes.poll_question.poll_id') %></dt>
-    <dd>
-      <%= admin_poll_link(@entity.poll) %>
-    </dd>
-
-    <dt><%= t('activerecord.attributes.poll_question.priority') %></dt>
-    <dd>
-      <%= @entity.priority %>
-    </dd>
-
-    <dt><%= t('activerecord.attributes.poll_question.text') %></dt>
-    <dd>
-      <%= @entity.text %>
-    </dd>
+    <div>
+      <dt><%= t('activerecord.attributes.poll_question.text') %></dt>
+      <dd>
+        <div class="text"><%= @entity.text %></div>
+      </dd>
+    </div>
 
     <% unless @entity.comment.blank? %>
+      <div>
         <dt><%= t('activerecord.attributes.poll_question.comment') %></dt>
         <dd>
-          <%= @entity.comment %>
+          <div class="text"><%= @entity.comment %></div>
         </dd>
+      </div>
     <% end %>
+
+    <%= render partial: 'shared/entity/uuid', locals: { entity: @entity } %>
+    <%= render partial: 'shared/entity/timestamps', locals: { entity: @entity } %>
   </dl>
 
   <%=
@@ -76,10 +66,10 @@
   </section>
 
   <% if @entity.poll_answers.count < 10 %>
-      <section>
-        <h2><%= t('poll_answers.new.heading') %></h2>
+    <section>
+      <h2><%= t('poll_answers.new.heading') %></h2>
 
-        <%= render partial: 'poll_answers/form', locals: { entity: @entity.poll_answers.new } %>
-      </section>
+      <%= render partial: 'poll_answers/form', locals: { entity: @entity.poll_answers.new } %>
+    </section>
   <% end %>
 </article>

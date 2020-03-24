@@ -1,36 +1,55 @@
+# frozen_string_literal: true
+
+# Poll question
+# 
+# Attributes:
+#   comment [string], optional
+#   created_at [DateTime]
+#   data [jsonb]
+#   multiple_choice [boolean]
+#   poll_answers_count [integer]
+#   poll_id [Poll]
+#   priority [integer]
+#   simple_image_id [SimpleImage], optional
+#   text [string]
+#   updated_at [DateTime]
+#   uuid [uuid]
 class PollQuestion < ApplicationRecord
+  include Checkable
+  include HasSimpleImage
+  include HasUuid
+  include NestedPriority
   include Toggleable
 
-  TEXT_LIMIT     = 140
-  COMMENT_LIMIT  = 140
-  PRIORITY_RANGE = (1..100)
+  COMMENT_LIMIT = 255
+  TEXT_LIMIT = 255
 
   toggleable :multiple_choice
-
-  mount_uploader :image, PollImageUploader
 
   belongs_to :poll, counter_cache: true
   has_many :poll_answers, dependent: :delete_all
 
-  after_initialize :set_next_priority
-
   before_validation { self.text = text.to_s.strip }
-  before_validation :normalize_priority
 
   validates_presence_of :text
   validates_length_of :text, maximum: TEXT_LIMIT
   validates_length_of :comment, maximum: COMMENT_LIMIT
-  validates_uniqueness_of :text, scope: [:poll_id]
+  validates_uniqueness_of :text, scope: :poll_id
 
-  scope :ordered_by_priority, -> { order('priority asc, text asc') }
-  scope :siblings, ->(item) { where(poll_id: item.poll_id) }
+  scope :list_for_visitors, -> { ordered_by_priority }
+  scope :list_for_administration, -> { ordered_by_priority }
+
+  # @param [PollQuestion] entity
+  def self.siblings(entity)
+    where(poll_id: entity&.poll_id)
+  end
 
   def self.entity_parameters
-    PollQuestion.toggleable_attributes + %i(image text comment)
+    PollQuestion.toggleable_attributes + %i[comment simple_image_id text]
   end
 
   def self.creation_parameters
-    entity_parameters + %i(poll_id)
+    entity_parameters + %i[poll_id]
   end
 
   # @param [User] user
@@ -39,31 +58,6 @@ class PollQuestion < ApplicationRecord
   end
 
   def vote_count
-    poll_answers.pluck(:poll_votes_count).reduce(&:+)
-  end
-
-  # @param [Integer] delta
-  def change_priority(delta)
-    new_priority = priority + delta
-    adjacent     = self.class.siblings(self).find_by(priority: new_priority)
-    if adjacent.is_a?(self.class) && (adjacent.id != id)
-      adjacent.update!(priority: priority)
-    end
-    update(priority: new_priority)
-
-    self.class.siblings(self).map { |e| [e.id, e.priority] }.to_h
-  end
-
-  private
-
-  def set_next_priority
-    if id.nil? && priority == 1
-      self.priority = self.class.siblings(self).maximum(:priority).to_i + 1
-    end
-  end
-
-  def normalize_priority
-    self.priority = PRIORITY_RANGE.first if priority < PRIORITY_RANGE.first
-    self.priority = PRIORITY_RANGE.last if priority > PRIORITY_RANGE.last
+    poll_answers.pluck(:poll_votes_count).sum
   end
 end
